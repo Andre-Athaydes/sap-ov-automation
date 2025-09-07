@@ -1,0 +1,125 @@
+Sub ExecutarScriptPython()
+    Dim caminhoScript As String
+    Dim resultado As Boolean
+    
+    ' Caminho do script Python
+    caminhoScript = "C:\Users\E711449\OneDrive - EDP\Área de Trabalho\Planilhas_ Scripts_Andre\Cadastro_Logradouro_Python\Extrair_telefone_v3.py"
+    
+    ' Verificar se script existe
+    If Dir(caminhoScript) = "" Then
+        MsgBox "Script Python não encontrado!" & vbCrLf & vbCrLf & _
+               "Local esperado:" & vbCrLf & caminhoScript & vbCrLf & vbCrLf & _
+               "Certifique-se de que o arquivo existe nesta localização.", _
+               vbCritical, "Arquivo Não Encontrado"
+        Call DiagnosticarAmbientePython
+        Exit Sub
+    End If
+    
+    ' Salvar planilha antes de executar
+    If ActiveWorkbook.Saved = False Then
+        ActiveWorkbook.Save
+        MsgBox "Planilha salva antes da execução.", vbInformation
+    End If
+    
+    ' Mensagem de confirmação
+    Dim resposta As VbMsgBoxResult
+    resposta = MsgBox("Iniciar processo de atualização de telefones?" & vbCrLf & vbCrLf & _
+                      "Modo: Python direto (RÁPIDO)" & vbCrLf & vbCrLf & _
+                      "IMPORTANTE:" & vbCrLf & _
+                      "• Certifique-se de que o SAP está fechado" & vbCrLf & _
+                      "• O processo será mais rápido que o executável" & vbCrLf & _
+                      "• O Excel será fechado durante a execução" & vbCrLf & vbCrLf & _
+                      "Script: " & Dir(caminhoScript), _
+                      vbYesNo + vbQuestion, "Confirmar Execução - Python")
+    
+    If resposta = vbNo Then
+        MsgBox "Operação cancelada pelo usuário.", vbInformation
+        Exit Sub
+    End If
+    
+    ' Executar o script Python
+    resultado = ExecutarPythonDireto(caminhoScript)
+     ' Mostrar status na barra
+     Application.StatusBar = "Iniciando script Python... Excel será fechado automaticamente."
+    
+    
+    If resultado Then
+        ' Sucesso - fechar Excel
+        Application.DisplayAlerts = False
+        ActiveWorkbook.Close SaveChanges:=False
+        Application.Quit
+    Else
+        ' Erro - manter Excel aberto
+        MsgBox "Falha ao iniciar o script Python." & vbCrLf & _
+               "Verifique se Python está instalado e funcionando.", _
+               vbCritical, "Erro na Execução"
+    End If
+End Sub
+
+Private Function ExecutarPythonDireto(caminhoScript As String) As Boolean
+    Dim wsh As Object
+    Dim comando As String
+    Dim retorno As Long
+    Dim diretorioTrabalho As String
+    
+    On Error GoTo TratarErro
+    
+    Set wsh = CreateObject("WScript.Shell")
+    
+    ' Definir diretório de trabalho
+    diretorioTrabalho = "C:\Users\E711449\OneDrive - EDP\Área de Trabalho\Planilhas_ Scripts_Andre\Cadastro_Logradouro_Python\"
+    wsh.CurrentDirectory = diretorioTrabalho
+    
+    ' Tentar diferentes comandos Python (em ordem de preferência)
+    Dim comandos As Variant
+    comandos = Array( _
+        "python """ & caminhoScript & """", _
+        "py """ & caminhoScript & """", _
+        "python.exe """ & caminhoScript & """" _
+    )
+    
+    Dim i As Integer
+    For i = 0 To UBound(comandos)
+        comando = comandos(i)
+        
+        ' Executar sem aguardar (para não travar o Excel)
+        ' 1 = janela normal, False = não aguarda terminar
+        On Error Resume Next
+        retorno = wsh.Run(comando, 1, False)
+        
+        If Err.Number = 0 Then
+            ' Comando executado com sucesso
+            ExecutarPythonDireto = True
+            Set wsh = Nothing
+            Exit Function
+        End If
+        
+        On Error GoTo TratarErro
+    Next i
+    
+    ' Se chegou aqui, nenhum comando funcionou
+    MsgBox "Não foi possível executar Python!" & vbCrLf & vbCrLf & _
+           "Comandos tentados:" & vbCrLf & _
+           "• python" & vbCrLf & _
+           "• py" & vbCrLf & _
+           "• python.exe" & vbCrLf & vbCrLf & _
+           "Verifique se Python está instalado e no PATH.", _
+           vbCritical, "Python Não Encontrado"
+    
+    ExecutarPythonDireto = False
+    Set wsh = Nothing
+    Exit Function
+    
+TratarErro:
+    MsgBox "Erro técnico ao executar Python:" & vbCrLf & vbCrLf & _
+           "Descrição: " & Err.Description & vbCrLf & _
+           "Número: " & Err.Number & vbCrLf & vbCrLf & _
+           "Comando tentado: " & comando & vbCrLf & vbCrLf & _
+           "Soluções:" & vbCrLf & _
+           "1. Teste o script manualmente primeiro" & vbCrLf & _
+           "2. Verifique se Python está no PATH" & vbCrLf & _
+           "3. Execute como Administrador", vbCritical, "Erro Python"
+    
+    ExecutarPythonDireto = False
+    Set wsh = Nothing
+End Function

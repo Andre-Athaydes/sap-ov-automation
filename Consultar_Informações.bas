@@ -14,7 +14,7 @@ If Not IsObject(Application1) Then
    Set Application1 = SapGuiAuto.GetScriptingEngine
 End If
 If Not IsObject(Connection1) Then
-   Set Connection1 = Application1.OpenConnection("PRODUÇÃO CCS ( EP2 ) - EDP ES")
+   Set Connection1 = Application1.OpenConnection("PRODUÇÃO CCS ( EP2 ) ")
 End If
 If Not IsObject(session1) Then
    Set session1 = Connection1.Children(0)

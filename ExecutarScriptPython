@@ -3,7 +3,7 @@ Sub ExecutarScriptPython()
     Dim resultado As Boolean
     
     ' Caminho do script Python
-    caminhoScript = "C:\Users\E711449\OneDrive - EDP\Área de Trabalho\Planilhas_ Scripts_Andre\Cadastro_Logradouro_Python\Extrair_telefone_v3.py"
+    caminhoScript = "C:\Área de Trabalho\Planilhas_ Scripts_Andre\Cadastro_Logradouro_Python\Extrair_telefone_v3.py"
     
     ' Verificar se script existe
     If Dir(caminhoScript) = "" Then
@@ -67,7 +67,7 @@ Private Function ExecutarPythonDireto(caminhoScript As String) As Boolean
     Set wsh = CreateObject("WScript.Shell")
     
     ' Definir diretório de trabalho
-    diretorioTrabalho = "C:\Users\E711449\OneDrive - EDP\Área de Trabalho\Planilhas_ Scripts_Andre\Cadastro_Logradouro_Python\"
+    diretorioTrabalho = "C:\Área de Trabalho\Planilhas_ Scripts_Andre\Cadastro_Logradouro_Python\"
     wsh.CurrentDirectory = diretorioTrabalho
     
     ' Tentar diferentes comandos Python (em ordem de preferência)

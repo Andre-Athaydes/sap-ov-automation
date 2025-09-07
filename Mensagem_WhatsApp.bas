@@ -21,13 +21,13 @@ Else
     saudacao = "Boa tarde!"
 End If
 
-mensagem = saudacao & vbCrLf & vbCrLf & "Somos da EDP e estamos entrando em contato referente à sua solicitação de ligação nova." & _
+mensagem = saudacao & vbCrLf & vbCrLf & "Somos da EMPRESA X e estamos entrando em contato referente à sua solicitação de ligação nova." & _
            vbCrLf & vbCrLf & "Para seguirmos com sua solicitação, precisamos analisar a rede que atende o local. Para agilizar o atendimento, pedimos que nos envie as coordenadas do local." & _
            vbCrLf & vbCrLf & "Para enviá-las, basta estar no local da ligação e, via WhatsApp, clicar em Anexos -> Localização -> Enviar localização fixa." & _
            vbCrLf & vbCrLf & "Não é necessário informar o endereço novamente, pois já o possuímos. Precisamos apenas das coordenadas para identificação no sistema." & _
            vbCrLf & vbCrLf & "Número da sua solicitação: " & ovNumero & _
            vbCrLf & vbCrLf & "Atenciosamente," & _
-           vbCrLf & "*EDP Brasil*"
+           vbCrLf & "*EMPRESA X*"
            
 
 DataObj.SetText mensagem
@@ -56,13 +56,13 @@ Else
     saudacao = "Boa tarde!"
 End If
 
-mensagem = saudacao & vbCrLf & vbCrLf & "Somos da EDP e estamos entrando em contato referente à sua solicitação de ligação nova." & _
+mensagem = saudacao & vbCrLf & vbCrLf & "Somos da EMPRESA X e estamos entrando em contato referente à sua solicitação de ligação nova." & _
            vbCrLf & vbCrLf & "Para seguirmos com sua solicitação, precisamos analisar a rede que atende o local. Para agilizar o atendimento, pedimos que nos envie as coordenadas do local." & _
            vbCrLf & vbCrLf & "Para enviá-las, basta estar no local da ligação e, via WhatsApp, clicar em Anexos -> Localização -> Enviar localização fixa." & _
            vbCrLf & vbCrLf & "Não é necessário informar o endereço novamente, pois já o possuímos. Precisamos apenas das coordenadas para identificação no sistema." & _
            vbCrLf & vbCrLf & "Número da sua solicitação: " & ovNumero & _
            vbCrLf & vbCrLf & "Atenciosamente," & _
-           vbCrLf & "*EDP Brasil*"
+           vbCrLf & "*EMPRESA X*"
            
 
 DataObj.SetText mensagem
